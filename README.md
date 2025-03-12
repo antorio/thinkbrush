@@ -1,78 +1,19 @@
-# 🪶 MagicQuill: An Intelligent Interactive Image Editing System
-<a href="https://magicquill.art/demo/"><img src="https://img.shields.io/static/v1?label=Project&message=magicquill.art&color=blue"></a>
-<a href="https://arxiv.org/abs/2411.09703"><img src="https://img.shields.io/badge/arXiv-2411.09703-b31b1b.svg"></a>
-<a href="https://huggingface.co/spaces/AI4Editing/MagicQuill"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)"></a>
-<a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg"></a>
-
-
-
-https://github.com/user-attachments/assets/8ee9663a-fef2-484a-a0b7-8427ab590424
-
-There is an HD video on [Youtube](https://www.youtube.com/watch?v=5DiKfONMnE4).
-
-[Zichen Liu](https://zliucz.github.io)<sup>\*,1,2</sup>, [Yue Yu](https://bruceyyu.github.io/)<sup>\*,1,2</sup>, [Hao Ouyang](https://ken-ouyang.github.io/)<sup>2</sup>, [Qiuyu Wang](https://github.com/qiuyu96)<sup>2</sup>, [Ka Leong Cheng](https://felixcheng97.github.io/)<sup>1,2</sup>, [Wen Wang](https://github.com/encounter1997)<sup>3,2</sup>, [Zhiheng Liu](https://johanan528.github.io/)<sup>4</sup>, [Qifeng Chen](https://cqf.io/)<sup>†,1</sup>, [Yujun Shen](https://shenyujun.github.io/)<sup>†,2</sup><br>
-<sup>1</sup>HKUST <sup>2</sup>Ant Group <sup>3</sup>ZJU <sup>4</sup>HKU <sup>\*</sup>equal contribution <sup>†</sup>corresponding author
-
-> TLDR: MagicQuill is an intelligent and interactive system achieving precise image editing.
->
-> Key Features: 😎 User-friendly interface / 🤖 AI-powered suggestions / 🎨 Precise local editing
-
-- [🪶 MagicQuill: An Intelligent Interactive Image Editing System](#-magicquill-an-intelligent-interactive-image-editing-system)
-  - [TODO List](#todo-list)
-  - [Update Log](#update-log)
-  - [Hardware Requirements](#hardware-requirements)
-  - [Docker Container](#docker-container)
-  - [Setup](#setup)
-  - [Tutorial](#tutorial)
-  - [Citation](#citation)
-  - [Acknowledgement](#acknowledgement)
-  - [Note](#note)
-
-## TODO List
-
-- [x] Release the paper and demo page. Visit [magicquill.art](https://magicquill.art) 🪩
-- [x] Release the code and checkpoints.
-- [x] Release gradio demo.
-- [x] Release ComfyUI MagicQuill custom node.
-
-<img src="docs/comfyui.png" width="100%" >
-
-## Update Log
-
-- [2024.11.21] 📢 Update the save button; Fix path bug on Windows; Add `.bat` and `.sh` files for convenient environment install on Windows and Linux. Thanks [lior007](https://github.com/lior007) and [JamesIV4](https://github.com/JamesIV4).
-- [2024.11.25] 📢 New UI Updates: Drag & Drop Images + Download Button: We've enhanced our interface with two exciting features! Now you can easily upload images with drag & drop functionality, and quickly save your work using our new download button. Try it out and let us know what you think!
-- [2024.12.06] 📢 New Feature Updates: Auto-save and Resolution Adjustment are now enabled in the parameter settings. Thanks [Furkan Gözükara](https://github.com/FurkanGozukara) for his brilliant suggestions.
-- [2024.12.07] 🎉 Exciting News: ComfyUI MagicQuill Node has been released! Check the repository https://github.com/magic-quill/ComfyUI_MagicQuill for more details.
-- [2024.12.16] 🎉 Exciting News: MagicQuill is also available at [Modelscope](https://modelscope.cn/studios/ant-research/MagicQuill_demo). Thanks for their amazing support and infrastructure.
-- [2025.01.02] 🎉 Exciting News: MagicQuill docker container is now available. You can now build & run your own image in a cleaner, isolated environment. Thanks [gbudge](https://github.com/gbudge) for his contribution.
-- [2025.02.27] 🎉 Exciting News: MagicQuill has been accepted to CVPR 2025! Looking forward to meeting everyone in Tennessee!
-
-To update the latest features, pull the latest code and re-install the gradio_magicquill:
-```
-pip uninstall -y gradio_magicquill-0.0.1-py3-none-any.whl
-pip install gradio_magicquill-0.0.1-py3-none-any.whl
-```
-
-## Hardware Requirements
-
-- GPU is required to run MagicQuill. **Through our testing, we have confirmed that the model can run on GPUs with 8GB VRAM (RTX4070 Laptop).**
-
-For users with limited GPU resources, please try our [Huggingface Demo](https://huggingface.co/spaces/AI4Editing/MagicQuill) and [Modelscope Demo](https://modelscope.cn/studios/ant-research/MagicQuill_demo). Also, consider disabling the DrawNGuess automatic prompt filling by clicking the wand icon above if it takes too long time on your machine.
+This was modified from ant-research's MagicQuill 
 
 ##  Setup
 Follow the following guide to set up the environment.
 
 1. git clone repo. **Please don't forget the `--recursive` flag.** Otherwise, you will find `LLaVA` submodule missing.
     ```
-    git clone --recursive https://github.com/magic-quill/MagicQuill.git
-    cd MagicQuill
+    git clone --recursive https://github.com/antorio/thinkbrush.git
+    cd thinkbrush
     ```
 2. download and unzip checkpoints
     ```
     wget -O models.zip "https://hkustconnect-my.sharepoint.com/:u:/g/personal/zliucz_connect_ust_hk/EWlGF0WfawJIrJ1Hn85_-3gB0MtwImAnYeWXuleVQcukMg?e=Gcjugg&download=1"
     unzip models.zip
     ```
-    If the .zip file is not accessible, download it via browser. All checkpoints are about 25 GB in total. It may take some time to download. Alternatively, check our checkpoints at [huggingface](https://huggingface.co/LiuZichen/MagicQuill-models).
+    If the .zip file is not accessible, download it via browser. All checkpoints are about 25 GB in total. It may take some time to download. 
 
 ---
 
@@ -82,8 +23,8 @@ Alternatively, follow the step-by-step installation guide.
 
 3. create environment
     ```
-    conda create -n MagicQuill python=3.10 -y
-    conda activate MagicQuill
+    conda create -n thinkbrush python=3.10 -y
+    conda activate thinkbrush
     ```
 
 4. install torch with GPU support
