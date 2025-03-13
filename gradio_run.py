@@ -189,7 +189,7 @@ def auto_save_generated_image(res):
     os.makedirs("output", exist_ok=True)
     
     timestamp = time.strftime("%Y%m%d_%H%M%S")
-    save_path = os.path.join("output", f"magicquill_{timestamp}.png")
+    save_path = os.path.join("output", f"thinkfusion_{timestamp}.png")
     img.save(save_path)
     print(f"Image saved to: {save_path}")
 
@@ -215,16 +215,16 @@ with gr.Blocks(css=css) as demo:
                 ckpt_name = gr.Dropdown(
                     label="Base Model Name",
                     choices=folder_paths.get_filename_list("checkpoints"),
-                    value=os.path.join('SD1.5', 'realisticVisionV60B1_v51VAE.safetensors'),
+                    value=os.path.join('SD1.5', 'realisticVision.safetensors'),
                     interactive=True
                 )
-                auto_save_checkbox = gr.Checkbox(
-                    label="Auto Save",
-                    value=False,
-                    interactive=True
-                )
+                # auto_save_checkbox = gr.Checkbox(
+                #     label="Auto Save",
+                #     value=False,
+                #     interactive=True
+                # )
                 resolution_slider = gr.Slider(
-                    label="Resolution (Please update this before you upload the image ;).)",
+                    label="Resolution (Update sebelum upload)",
                     minimum=256,
                     maximum=2048,
                     value=512,
@@ -290,7 +290,7 @@ with gr.Blocks(css=css) as demo:
                     label="Steps",
                     minimum=1,
                     maximum=50,
-                    value=20,
+                    value=40,
                     interactive=True
                 )
                 cfg = gr.Slider(
@@ -304,7 +304,7 @@ with gr.Blocks(css=css) as demo:
                 sampler_name = gr.Dropdown(
                     label="Sampler Name",
                     choices=["euler", "euler_ancestral", "heun", "heunpp2","dpm_2", "dpm_2_ancestral", "lms", "dpm_fast", "dpm_adaptive", "dpmpp_2s_ancestral", "dpmpp_sde", "dpmpp_sde_gpu", "dpmpp_2m", "dpmpp_2m_sde", "dpmpp_2m_sde_gpu", "dpmpp_3m_sde", "dpmpp_3m_sde_gpu", "ddpm", "lcm", "ddim", "uni_pc", "uni_pc_bh2"],
-                    value='euler_ancestral',
+                    value='dpmpp_3m_sde',
                     interactive=True
                 )
                 scheduler = gr.Dropdown(
@@ -322,7 +322,7 @@ with gr.Blocks(css=css) as demo:
             global RES
             RES = value
 
-        auto_save_checkbox.change(fn=update_auto_save, inputs=[auto_save_checkbox])
+        # auto_save_checkbox.change(fn=update_auto_save, inputs=[auto_save_checkbox])
         resolution_slider.change(fn=update_resolution, inputs=[resolution_slider])
         btn.click(generate_image_handler, inputs=[ms, ckpt_name, negative_prompt, fine_edge, grow_size, edge_strength, color_strength, inpaint_strength, seed, steps, cfg, sampler_name, scheduler], outputs=ms)
     

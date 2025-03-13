@@ -24,7 +24,7 @@ class ScribbleColorEditModel():
         self.ksampler = KSampler()
         self.vae_decoder = VAEDecode()
         self.blender = BlendInpaint()
-        self.ckpt_name = os.path.join("SD1.5", "realisticVisionV60B1_v51VAE.safetensors")
+        self.ckpt_name = os.path.join("SD1.5", "realisticVision.safetensors")
         with torch.no_grad():
             self.model, self.clip, self.vae = self.checkpoint_loader.load_checkpoint(self.ckpt_name)
         self.load_models('SD1.5', 'float16')
