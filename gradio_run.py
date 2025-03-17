@@ -211,9 +211,9 @@ with gr.Blocks(css=css) as demo:
         with gr.Column():
             btn = gr.Button("Run", variant="primary")
         with gr.Column():
-            with gr.Accordion("parameters", open=False):
+            with gr.Accordion("Options / Setings", open=False):
                 ckpt_name = gr.Dropdown(
-                    label="Base Model Name",
+                    label="Model",
                     choices=folder_paths.get_filename_list("checkpoints"),
                     value=os.path.join('SD1.5', 'realisticVision.safetensors'),
                     interactive=True
@@ -257,7 +257,7 @@ with gr.Blocks(css=css) as demo:
                     interactive=True
                 )
                 edge_strength = gr.Slider(
-                    label="Edge Strength",
+                    label="Brush Strength",
                     minimum=0.0,
                     maximum=5.0,
                     value=0.55,
@@ -267,7 +267,7 @@ with gr.Blocks(css=css) as demo:
                 color_strength = gr.Slider(
                     label="Color Strength",
                     minimum=0.0,
-                    maximum=5.0,
+                    maximum=3.0,
                     value=0.55,
                     step=0.01,
                     interactive=True
@@ -294,11 +294,11 @@ with gr.Blocks(css=css) as demo:
                     interactive=True
                 )
                 cfg = gr.Slider(
-                    label="CFG",
+                    label="Guidance Strength",
                     minimum=0.0,
                     maximum=100.0,
                     value=5.0,
-                    step=0.1,
+                    step=0.5,
                     interactive=True
                 )
                 sampler_name = gr.Dropdown(
