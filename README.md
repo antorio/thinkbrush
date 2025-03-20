@@ -10,8 +10,10 @@ Follow the following guide to set up the environment.
     ```
 2. download and unzip checkpoints
     ```
-    wget -O models.zip "https://hkustconnect-my.sharepoint.com/:u:/g/personal/zliucz_connect_ust_hk/EWlGF0WfawJIrJ1Hn85_-3gB0MtwImAnYeWXuleVQcukMg?e=Gcjugg&download=1"
+    wget --no-check-certificate "https://f001.backblazeb2.com/file/tw-rnd/models.zip?Authorization=3_20250318183434_793c35a4c50c8aa491ff7e43_afe0463d032f20b2e3f384f434270390cbfba3c3_001_20250325183434_0000_dnld" -O 'models.zip'
     unzip models.zip
+    mv contents/models models
+    rm contents
     ```
     If the .zip file is not accessible, download it via browser. All checkpoints are about 25 GB in total. It may take some time to download. 
 
@@ -57,11 +59,11 @@ Alternatively, follow the step-by-step installation guide.
     pip install -r requirements.txt
     ```
 
-8. run magicquill
+8. run gradio app
     ```
-    python gradio_run.py
+    python thinkbrush.py
     ```
-    If you are mainland user, you may try `export HF_ENDPOINT=https://hf-mirror.com` to use huggingface mirror to facilitate the download of some necessary checkpoints to run our system.
+    
 
 
 ## Docker Container
@@ -76,8 +78,10 @@ You can build a docker container with MagicQuill as follows:
 
 2. download and unzip checkpoints
     ```
-    wget -O models.zip "https://hkustconnect-my.sharepoint.com/:u:/g/personal/zliucz_connect_ust_hk/EWlGF0WfawJIrJ1Hn85_-3gB0MtwImAnYeWXuleVQcukMg?e=Gcjugg&download=1"
+    wget --no-check-certificate "https://f001.backblazeb2.com/file/tw-rnd/models.zip?Authorization=3_20250318183434_793c35a4c50c8aa491ff7e43_afe0463d032f20b2e3f384f434270390cbfba3c3_001_20250325183434_0000_dnld" -O 'models.zip'
     unzip models.zip
+    mv contents/models models
+    rm contents
     ```
     If the .zip file is not accessible, download it via browser. All checkpoints are about 25 GB in total. It may take some time to download. Alternatively, check our checkpoints at [huggingface](https://huggingface.co/LiuZichen/MagicQuill-models).
     
@@ -130,4 +134,3 @@ Thanks for their remarkable contribution and released code!
 ## Note
 Note: This repo is governed by the license of CC BY-NC 4.0 We strongly advise users not to knowingly generate or allow others to knowingly generate harmful content, including hate speech, violence, pornography, deception, etc. 
 
-(注：本仓库受CC BY-NC的许可协议限制。我们强烈建议，用户不应传播及不应允许他人传播以下内容，包括但不限于仇恨言论、暴力、色情、欺诈相关的有害信息。)

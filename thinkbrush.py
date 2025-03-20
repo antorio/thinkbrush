@@ -21,7 +21,7 @@ import io
 AUTO_SAVE = False
 RES = 512
 
-llavaModel = LLaVAModel()
+llavaModel = None
 scribbleColorEditModel = ScribbleColorEditModel()
 
 def tensor_to_base64(tensor):
@@ -290,7 +290,8 @@ with gr.Blocks(css=css) as demo:
                     label="Steps",
                     minimum=1,
                     maximum=50,
-                    value=40,
+                    value=30,
+                    step=1,
                     interactive=True
                 )
                 cfg = gr.Slider(
@@ -348,4 +349,4 @@ async def process_background_img(request: Request):
 app = gr.mount_gradio_app(app, demo, "/")
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=7860)
+    uvicorn.run(app, host="0.0.0.0", port=7860)
