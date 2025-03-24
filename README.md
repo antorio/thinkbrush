@@ -12,8 +12,8 @@ Follow the following guide to set up the environment.
     ```
     wget --no-check-certificate "https://f001.backblazeb2.com/file/tw-rnd/models.zip?Authorization=3_20250318183434_793c35a4c50c8aa491ff7e43_afe0463d032f20b2e3f384f434270390cbfba3c3_001_20250325183434_0000_dnld" -O 'models.zip'
     unzip models.zip
-    mv contents/models models
-    rm contents
+    mv content/models models
+    rm -r content
     ```
     If the .zip file is not accessible, download it via browser. All checkpoints are about 25 GB in total. It may take some time to download. 
 
