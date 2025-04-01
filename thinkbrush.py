@@ -21,7 +21,8 @@ import io
 AUTO_SAVE = False
 RES = 512
 
-llavaModel = None
+llavaModel = LLaVAModel()
+#llavaModel = None
 scribbleColorEditModel = ScribbleColorEditModel()
 
 def tensor_to_base64(tensor):
