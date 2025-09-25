@@ -13,7 +13,7 @@ from fastapi import FastAPI, Request
 import uvicorn
 import requests
 from MagicQuill import folder_paths
-from MagicQuill.llava_new import LLaVAModel
+# from MagicQuill.llava_new import LLaVAModel
 from MagicQuill.scribble_color_edit import ScribbleColorEditModel
 import time
 import io
@@ -21,7 +21,7 @@ import io
 AUTO_SAVE = False
 RES = 512
 
-llavaModel = LLaVAModel()
+# llavaModel = LLaVAModel()
 #llavaModel = None
 scribbleColorEditModel = ScribbleColorEditModel()
 
