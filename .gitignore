@@ -4,3 +4,6 @@ __pycache__
 .DS_Store
 __MacOSX
 output/
+*.whl
+dist/
+build/
