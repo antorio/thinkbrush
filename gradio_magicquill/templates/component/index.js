@@ -18362,3 +18362,112 @@ class zb extends Sb {
 export {
   zb as default
 };
+
+
+// ===== injected: toolbar reorder & normalize (permanent, non-destructive) =====
+(function () {
+  function findByIconClass(cls) {
+    return document.querySelector('i.' + cls) ? document.querySelector('i.' + cls).closest('button') : null;
+  }
+  function findByTitle(substr) {
+    const s = substr.toLowerCase();
+    return Array.from(document.querySelectorAll('button,input,div')).find(el=>{
+      const t = (el.title || el.getAttribute('aria-label') || '').toLowerCase();
+      return t.includes(s);
+    }) || null;
+  }
+  function findPrompt() {
+    return document.querySelector('input[placeholder*="prompt"], textarea[placeholder*="prompt"], input[id*="prompt"], textarea[id*="prompt"]');
+  }
+  function findRunButton() {
+    const btns = Array.from(document.querySelectorAll('button'));
+    return btns.find(b => (b.innerText||'').trim().toLowerCase() === 'run') || btns.find(b => (b.title||'').toLowerCase().includes('run')) || null;
+  }
+  function findRange() {
+    return document.querySelector('input[type="range"], input[id*="brush"], input[name*="brush"]');
+  }
+  function findColor() {
+    return document.querySelector('input[type="color"]') || document.querySelector('[data-action="color"]') || null;
+  }
+
+  function safeMove(el, target) {
+    if (!el || !target) return;
+    try { target.appendChild(el); } catch(e) { console.warn('move failed', e, el); }
+  }
+
+  function hideElem(el) { if (!el) return; try { el.style.display = 'none'; } catch(e){} }
+
+  function createToolbarContainer() {
+    const t = document.createElement('div');
+    t.className = 'toolbar custom-top-toolbar';
+    t.style.display = 'flex';
+    t.style.flexDirection = 'row';
+    t.style.alignItems = 'center';
+    t.style.gap = '8px';
+    t.style.padding = '6px';
+    t.style.background = 'var(--toolbar-bg, #1e1e1e)';
+    t.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+    return t;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    try {
+      setTimeout(() => {
+        const toolbar = createToolbarContainer();
+
+        const uploadBtn = findByIconClass('fa-upload') || findByTitle('upload');
+        let addBrushBtn = findByIconClass('fa-paint-brush') || findByTitle('add brush') || findByTitle('brush');
+        let subBrushBtn = null;
+        const allBrushCandidates = Array.from(document.querySelectorAll('button')).filter(b => b.innerText.toLowerCase().includes('brush') || b.querySelector('i.fa-paint-brush'));
+        if (allBrushCandidates.length >= 2) {
+          addBrushBtn = allBrushCandidates[0];
+          subBrushBtn = allBrushCandidates[1];
+        }
+
+        const colorInput = findColor();
+        const eraserBtn = findByIconClass('fa-eraser') || findByTitle('eraser');
+        const pickBtn = findByIconClass('fa-eyedropper') || findByTitle('pick');
+        const brushSize = findRange();
+        const undoBtn = findByIconClass('fa-undo') || findByTitle('undo');
+        const redoBtn = findByIconClass('fa-redo') || findByTitle('redo');
+        const eyeBtn = findByIconClass('fa-eye') || findByTitle('eye');
+        const trashBtn = findByIconClass('fa-trash') || findByTitle('trash') || findByTitle('clear');
+        const promptInput = findPrompt();
+        const runBtn = findRunButton();
+        const downloadBtn = findByIconClass('fa-download') || findByTitle('download') || findByTitle('save');
+
+        const appRoot = document.querySelector('#root') || document.querySelector('.app') || document.body;
+        appRoot.insertBefore(toolbar, appRoot.firstChild);
+
+        const ordered = [uploadBtn, addBrushBtn || allBrushCandidates[0] || null, subBrushBtn || allBrushCandidates[1] || null, colorInput, eraserBtn, pickBtn, brushSize, undoBtn, redoBtn, eyeBtn, trashBtn, promptInput, runBtn, downloadBtn];
+
+        ordered.forEach(el => {
+          safeMove(el, toolbar);
+          if (!el) return;
+          const i = el.querySelector('i') || el.querySelector('svg');
+          if (i && !i.classList.contains('fa')) {
+            try {
+              const newI = document.createElement('i');
+              newI.className = 'fa fa-gear';
+              if (el.title) newI.setAttribute('aria-label', el.title);
+              el.insertBefore(newI, el.firstChild);
+            } catch(e) { }
+          }
+        });
+
+        const addEl = document.getElementById('add-brush-btn') || ordered[1];
+        const subEl = document.getElementById('sub-brush-btn') || ordered[2];
+        if (addEl) addEl.id = 'add-brush-btn';
+        if (subEl) subEl.id = 'sub-brush-btn';
+
+        const maybeWand = document.querySelector('i.fa-magic') || document.querySelector('[data-llava]') || findByTitle('llava') || findByTitle('wand');
+        if (maybeWand) hideElem(maybeWand.closest('button') || maybeWand);
+
+        toolbar.classList.add('injected-top-toolbar');
+
+      }, 120);
+    } catch (err) {
+      console.error('toolbar injection failed', err);
+    }
+  });
+})();
