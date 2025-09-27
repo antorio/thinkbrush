@@ -47,4 +47,4 @@ export default function ThinkBrushToolbar() {
       <button id="download-btn" title="Download"><i className="fa fa-download"></i></button>
     </div>
   );
-}}
+}
