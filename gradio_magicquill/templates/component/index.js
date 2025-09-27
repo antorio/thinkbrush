@@ -5,7 +5,6 @@ export default function Component({ value, setValue }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // Example hook
     const canvas = canvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext("2d");
@@ -14,89 +13,72 @@ export default function Component({ value, setValue }) {
     }
   }, []);
 
-  return (
-    <div className="main-container">
-      {/* === compact top toolbar (injected) === */}
-      <div className="custom-top-toolbar">
-        {/* 1. upload icon */}
-        <button id="upload-btn" title="Upload">
-          <i className="fa fa-upload"></i>
-        </button>
+  return h("div", { className: "main-container" }, [
 
-        {/* 2. add brush icon */}
-        <button id="add-brush-btn" title="Add Brush">
-          <i className="fa fa-paint-brush"></i>
-        </button>
+    // === compact top toolbar ===
+    h("div", { className: "custom-top-toolbar" }, [
 
-        {/* 3. subtract brush icon */}
-        <button id="sub-brush-btn" title="Subtract Brush">
-          <i className="fa fa-paint-brush"></i>
-        </button>
+      h("button", { id: "upload-btn", title: "Upload" }, [
+        h("i", { className: "fa fa-upload" })
+      ]),
 
-        {/* 4. color brush icon */}
-        <input type="color" id="color-brush" title="Color Brush" />
+      h("button", { id: "add-brush-btn", title: "Add Brush" }, [
+        h("i", { className: "fa fa-paint-brush" })
+      ]),
 
-        {/* 5. eraser icon */}
-        <button id="eraser-btn" title="Eraser">
-          <i className="fa fa-eraser"></i>
-        </button>
+      h("button", { id: "sub-brush-btn", title: "Subtract Brush" }, [
+        h("i", { className: "fa fa-paint-brush" })
+      ]),
 
-        {/* 6. pick icon */}
-        <button id="pick-btn" title="Pick Color">
-          <i className="fa fa-eye-dropper"></i>
-        </button>
+      h("input", { type: "color", id: "color-brush", title: "Color Brush" }),
 
-        {/* 7. brush size slider */}
-        <input
-          type="range"
-          id="brush-size"
-          min="1"
-          max="100"
-          defaultValue="25"
-          title="Brush Size"
-        />
+      h("button", { id: "eraser-btn", title: "Eraser" }, [
+        h("i", { className: "fa fa-eraser" })
+      ]),
 
-        {/* 8. undo icon */}
-        <button id="undo-btn" title="Undo">
-          <i className="fa fa-undo"></i>
-        </button>
+      h("button", { id: "pick-btn", title: "Pick Color" }, [
+        h("i", { className: "fa fa-eye-dropper" })
+      ]),
 
-        {/* 9. redo icon */}
-        <button id="redo-btn" title="Redo">
-          <i className="fa fa-redo"></i>
-        </button>
+      h("input", {
+        type: "range",
+        id: "brush-size",
+        min: "1",
+        max: "100",
+        defaultValue: "25",
+        title: "Brush Size"
+      }),
 
-        {/* 10. eye icon */}
-        <button id="eye-btn" title="Toggle Visibility">
-          <i className="fa fa-eye"></i>
-        </button>
+      h("button", { id: "undo-btn", title: "Undo" }, [
+        h("i", { className: "fa fa-undo" })
+      ]),
 
-        {/* 11. trash icon */}
-        <button id="trash-btn" title="Clear">
-          <i className="fa fa-trash"></i>
-        </button>
+      h("button", { id: "redo-btn", title: "Redo" }, [
+        h("i", { className: "fa fa-redo" })
+      ]),
 
-        {/* 12. prompt input */}
-        <input
-          type="text"
-          id="prompt-box"
-          placeholder="Enter prompt..."
-        />
+      h("button", { id: "eye-btn", title: "Toggle Visibility" }, [
+        h("i", { className: "fa fa-eye" })
+      ]),
 
-        {/* 13. Run button */}
-        <button id="run-btn" className="primary">
-          Run
-        </button>
+      h("button", { id: "trash-btn", title: "Clear" }, [
+        h("i", { className: "fa fa-trash" })
+      ]),
 
-        {/* 14. download icon */}
-        <button id="download-btn" title="Download">
-          <i className="fa fa-download"></i>
-        </button>
-      </div>
-      {/* === end injected toolbar === */}
+      h("input", {
+        type: "text",
+        id: "prompt-box",
+        placeholder: "Enter prompt..."
+      }),
 
-      {/* Canvas or rest of UI */}
-      <canvas ref={canvasRef} width={512} height={512}></canvas>
-    </div>
-  );
+      h("button", { id: "run-btn", className: "primary" }, "Run"),
+
+      h("button", { id: "download-btn", title: "Download" }, [
+        h("i", { className: "fa fa-download" })
+      ])
+    ]),
+
+    // === main canvas ===
+    h("canvas", { ref: canvasRef, width: 512, height: 512 })
+  ]);
 }
