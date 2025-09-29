@@ -13,7 +13,6 @@ from fastapi import FastAPI, Request
 import uvicorn
 import requests
 from MagicQuill import folder_paths
-# from MagicQuill.llava_new import LLaVAModel
 from MagicQuill.scribble_color_edit import ScribbleColorEditModel
 import time
 import io
@@ -21,8 +20,6 @@ import io
 AUTO_SAVE = False
 RES = 512
 
-# llavaModel = LLaVAModel()
-#llavaModel = None
 scribbleColorEditModel = ScribbleColorEditModel()
 
 def tensor_to_base64(tensor):
@@ -91,7 +88,6 @@ def prepare_images_and_masks(total_mask, original_image, add_color_image, add_ed
 
 
 def guess(original_image_tensor, add_color_image_tensor, add_edge_mask):
-    description, ans1, ans2 = llavaModel.process(original_image_tensor, add_color_image_tensor, add_edge_mask)
     ans_list = []
     if ans1 and ans1 != "":
         ans_list.append(ans1)
@@ -210,7 +206,7 @@ with gr.Blocks(css=css) as demo:
         ms = MagicQuill()
     with gr.Row(elem_classes="row"):
         with gr.Column():
-            btn = gr.Button("Run", variant="primary", elem_id="generate_btn")
+            btn = gr.Button("Run", variant="primary")
         with gr.Column():
             with gr.Accordion("Options / Setings", open=False):
                 ckpt_name = gr.Dropdown(
@@ -327,22 +323,6 @@ with gr.Blocks(css=css) as demo:
         # auto_save_checkbox.change(fn=update_auto_save, inputs=[auto_save_checkbox])
         resolution_slider.change(fn=update_resolution, inputs=[resolution_slider])
         btn.click(generate_image_handler, inputs=[ms, ckpt_name, negative_prompt, fine_edge, grow_size, edge_strength, color_strength, inpaint_strength, seed, steps, cfg, sampler_name, scheduler], outputs=ms)
-
-        # Inject small JS to bind Ctrl/Cmd+Enter to the Run button (fallback)
-        gr.HTML("""<script>
-        (function(){
-            document.addEventListener("keydown", function(event) {
-                if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-                    event.preventDefault();
-                    const b = document.getElementById("generate_btn");
-                    if (b) { b.click(); return; }
-                    // fallback: try to find a primary button
-                    const primary = document.querySelector('button[aria-pressed], button.gr-button, button');
-                    if (primary) primary.click();
-                }
-            });
-        })();
-        </script>""", visible=False)
     
 app = FastAPI()
 

@@ -18362,38 +18362,3 @@ class zb extends Sb {
 export {
   zb as default
 };
-
-
-
-
-// --- Added by assistant: Ctrl/Cmd+Enter shortcut to trigger Run/Generate ---
-(function() {
-    function onReady(fn) {
-        if (document.readyState !== 'loading') fn();
-        else document.addEventListener('DOMContentLoaded', fn);
-    }
-    onReady(function() {
-        document.addEventListener('keydown', function(event) {
-            if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
-                event.preventDefault();
-                const btn = document.getElementById('generate_btn');
-                if (btn) {
-                    btn.click();
-                    return;
-                }
-                const candidates = Array.from(document.querySelectorAll('button'));
-                for (const b of candidates) {
-                    if (b.offsetParent === null || b.disabled) continue;
-                    const txt = (b.innerText || '').trim().toLowerCase();
-                    if (['run','generate','generate image','submit','go','start'].includes(txt)) {
-                        b.click();
-                        return;
-                    }
-                }
-                const first = candidates.find(b => b.offsetParent !== null && !b.disabled);
-                if (first) first.click();
-            }
-        }, {capture: true});
-    });
-})();
-// --- end shortcut ---
