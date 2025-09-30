@@ -18369,3 +18369,45 @@ document.addEventListener('keydown', function(event) {
         if (genBtn) { genBtn.click(); }
     }
 });
+
+
+// Ctrl/Cmd+Enter listener (patched)
+// This clicks the element with id 'generate_btn' if present; otherwise falls back to the first visible button whose text is 'Run'.
+(function(){
+    function onReady(fn){ if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+    onReady(function(){
+        document.addEventListener('keydown', function(event){
+            if ((event.ctrlKey || event.metaKey) && event.key === 'Enter'){
+                event.preventDefault();
+                var btn = document.getElementById('generate_btn');
+                if (btn) { try { btn.click(); } catch(e){}; return; }
+                var list = Array.from(document.querySelectorAll('button'));
+                for (var i=0;i<list.length;i++){
+                    var b = list[i];
+                    try{
+                        if (b.offsetParent===null || b.disabled) continue;
+                        var txt = (b.innerText||'').trim().toLowerCase();
+                        if (txt === 'run'){ b.click(); return; }
+                    }catch(e){}
+                }
+            }
+        }, {capture:true});
+    });
+})();
+// End Ctrl/Cmd+Enter listener (patched)
+
+
+// --- Keyboard shortcut: Ctrl/Cmd + Enter to trigger Run ---
+document.addEventListener('keydown', function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+        let genBtn = document.getElementById('generate_btn');
+        if (genBtn) {
+            genBtn.click();
+        } else {
+            // fallback: cari tombol yang labelnya 'Run'
+            const buttons = Array.from(document.querySelectorAll('button'));
+            const runBtn = buttons.find(btn => btn.innerText.trim() === 'Run');
+            if (runBtn) runBtn.click();
+        }
+    }
+});

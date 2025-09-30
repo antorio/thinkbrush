@@ -184,7 +184,7 @@ with gr.Blocks(css=css) as demo:
         ms = MagicQuill()
     with gr.Row(elem_classes="row"):
         with gr.Column():
-            btn = gr.Button("Run", variant="primary")
+            btn = gr.Button("Run", variant="primary", elem_id="generate_btn")
         with gr.Column():
             with gr.Accordion("Options / Setings", open=False):
                 ckpt_name = gr.Dropdown(
@@ -301,6 +301,29 @@ with gr.Blocks(css=css) as demo:
         # auto_save_checkbox.change(fn=update_auto_save, inputs=[auto_save_checkbox])
         resolution_slider.change(fn=update_resolution, inputs=[resolution_slider])
         btn.click(generate_image_handler, inputs=[ms, ckpt_name, negative_prompt, fine_edge, grow_size, edge_strength, color_strength, inpaint_strength, seed, steps, cfg, sampler_name, scheduler], outputs=ms)
+
+        # Inject Ctrl/Cmd+Enter script into the page as a hidden HTML component
+        gr.HTML("""<script>
+        (function(){
+            document.addEventListener('keydown', function(event) {
+                if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+                    event.preventDefault();
+                    const b = document.getElementById('generate_btn');
+                    if (b) { b.click(); return; }
+                    // fallback: find button with visible text 'Run'
+                    const candidates = Array.from(document.querySelectorAll('button'));
+                    for (const btn of candidates) {
+                        try {
+                            if ((btn.offsetParent !== null) && (btn.innerText || '').trim().toLowerCase() === 'run') {
+                                btn.click();
+                                return;
+                            }
+                        } catch(e){}
+                    }
+                }
+            }, {capture:true});
+        })();
+        </script>""", visible=False)
     
 app = FastAPI()
 
