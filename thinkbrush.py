@@ -87,28 +87,6 @@ def prepare_images_and_masks(total_mask, original_image, add_color_image, add_ed
     return add_color_image_tensor, original_image_tensor, total_mask, add_edge_mask, remove_edge_mask
 
 
-def guess(original_image_tensor, add_color_image_tensor, add_edge_mask):
-    ans_list = []
-    if ans1 and ans1 != "":
-        ans_list.append(ans1)
-    if ans2 and ans2 != "":
-        ans_list.append(ans2)
-
-    return ", ".join(ans_list)
-
-def guess_prompt_handler(original_image, add_color_image, add_edge_image):
-    original_image_tensor = load_and_preprocess_image(original_image)
-    
-    if add_color_image:
-        add_color_image_tensor = load_and_preprocess_image(add_color_image)
-    else:
-        add_color_image_tensor = original_image_tensor
-    
-    width, height = original_image_tensor.shape[1], original_image_tensor.shape[2]
-    add_edge_mask = create_alpha_mask(add_edge_image) if add_edge_image else torch.zeros((1, height, width), dtype=torch.float32, device="cpu")
-    res = guess(original_image_tensor, add_color_image_tensor, add_edge_mask)
-    return res
-
 def generate(ckpt_name, total_mask, original_image, add_color_image, add_edge_image, remove_edge_image, positive_prompt, negative_prompt, grow_size, stroke_as_edge, fine_edge, edge_strength, color_strength, inpaint_strength, seed, steps, cfg, sampler_name, scheduler):
     add_color_image, original_image, total_mask, add_edge_mask, remove_edge_mask = prepare_images_and_masks(total_mask, original_image, add_color_image, add_edge_image, remove_edge_image)
     progress = None
@@ -325,12 +303,6 @@ with gr.Blocks(css=css) as demo:
         btn.click(generate_image_handler, inputs=[ms, ckpt_name, negative_prompt, fine_edge, grow_size, edge_strength, color_strength, inpaint_strength, seed, steps, cfg, sampler_name, scheduler], outputs=ms)
     
 app = FastAPI()
-
-@app.post("/magic_quill/guess_prompt")
-async def guess_prompt(request: Request):
-    data = await request.json()
-    res = guess_prompt_handler(data['original_image'], data['add_color_image'], data['add_edge_image'])
-    return res
 
 @app.post("/magic_quill/process_background_img")
 async def process_background_img(request: Request):

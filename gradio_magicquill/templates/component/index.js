@@ -18362,3 +18362,10 @@ class zb extends Sb {
 export {
   zb as default
 };
+
+document.addEventListener('keydown', function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+        const genBtn = document.querySelector('button.svelte-1ipelgc');
+        if (genBtn) { genBtn.click(); }
+    }
+});
