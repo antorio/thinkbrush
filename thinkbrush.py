@@ -227,7 +227,7 @@ with gr.Blocks(css=css) as demo:
                     label="Grow Size",
                     minimum=0,
                     maximum=100,
-                    value=15,
+                    value=12,
                     step=1,
                     interactive=True
                 )
@@ -265,7 +265,7 @@ with gr.Blocks(css=css) as demo:
                     label="Steps",
                     minimum=1,
                     maximum=50,
-                    value=30,
+                    value=50,
                     step=1,
                     interactive=True
                 )
