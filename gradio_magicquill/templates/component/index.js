@@ -17989,7 +17989,7 @@ const bb = "data:image/svg+xml,%3Csvg version='1.1' id='Ebene_1' x='0px' y='0px'
           {
             id: "wand-icon",
             ref: ht,
-            className: "",
+            className: x ? "active" : "",
             title: "Guess prompt: " + (x ? "on" : "off"),
             onClick: () => S(!x)
           }
@@ -18277,7 +18277,16 @@ function Bb(t, e, n) {
       body: JSON.stringify(v),
       headers: { "content-type": "application/json" }
     }).then((F) => F.json());
-  });
+  }), dt = (v) => o(void 0, void 0, void 0, function* () {
+    const Ct = yield fetch(`${w || ""}/magic_quill/guess_prompt`, {
+      method: "POST",
+      body: JSON.stringify(d.from_frontend),
+      headers: { "content-type": "application/json" }
+    }).then((F) => F.json());
+    return n(2, d.from_backend.prompt = Ct, d), { error: !1, prompt: Ct };
+  }), it = (v) => {
+    n(2, d.from_backend.prompt = v, d);
+  };
   Fb(() => {
     j = Cb(E, {
       theme: _,
@@ -18402,7 +18411,6 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
-
 document.addEventListener("DOMContentLoaded", function () {
     // Cari elemen magic wand (biasanya icon / button)
     const wandIcons = document.querySelectorAll(".magic-wand, .guess-prompt, .wand-icon, .svelte-guess");
